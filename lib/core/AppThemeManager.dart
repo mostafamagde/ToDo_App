@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
 
-class Appthememanager{
-  static ThemeData lighttheme =ThemeData(
-    scaffoldBackgroundColor: Color(0xFFDFECDB)
+class Appthememanager {
+  static const Color primarycolor = Color(0xFF5D9CEC);
+  static ThemeData lighttheme = ThemeData(
+    scaffoldBackgroundColor: Colors.transparent,
+    primaryColor: primarycolor,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      centerTitle: true,
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+        fontSize: 25,
+      ),
+    ),
+    textTheme: TextTheme(
+      bodyLarge: TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 30,
+        color: Colors.white,
+        fontWeight: FontWeight.w700,
+      ),
+      bodyMedium:  TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 25,
+        color: Colors.black ,
+        fontWeight: FontWeight.w700,
+      ),
+      bodySmall:  TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 14,
+        color: Colors.black ,
+        fontWeight: FontWeight.w400,
+      ),
+      displayMedium: TextStyle(
+        fontFamily: "Poppins",
+        fontSize: 18,
+        color: Colors.black ,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
   );
 }
