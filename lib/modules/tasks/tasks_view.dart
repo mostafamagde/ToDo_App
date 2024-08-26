@@ -41,8 +41,7 @@ class _TasksViewState extends State<TasksView> {
                   firstDate: DateTime.now().subtract(Duration(days: 50000)),
                   lastDate: DateTime.now().add(Duration(days: 40000)),
                   onDateSelected: (date) {
-                    print(date);
-                    setState(() {});
+
                   },
                   selectedDayPosition: SelectedDayPosition.center,
                   selectedTileHeight: 170,
