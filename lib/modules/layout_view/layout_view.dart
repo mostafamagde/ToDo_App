@@ -25,7 +25,7 @@ class _LayoutViewState extends State<LayoutView> {
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: Color(0xffDFECDB),
+      backgroundColor: const Color(0xffDFECDB),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -60,7 +60,7 @@ class _LayoutViewState extends State<LayoutView> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           selectedLabelStyle: TextStyle(),
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/icons/Icon awesome-list.png"),

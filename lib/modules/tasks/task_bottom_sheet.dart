@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:untitled/modules/models/task_model.dart';
 
@@ -43,7 +44,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             ),
             TextFormField(
               validator: (value) {
-                if(value==null||value.trim().isEmpty){
+                if (value == null || value.trim().isEmpty) {
                   return "Task description is required";
                 }
                 return null;
@@ -59,7 +60,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             ),
             TextFormField(
               validator: (value) {
-                if(value==null||value.trim().isEmpty){
+                if (value == null || value.trim().isEmpty) {
                   return "Task title is required";
                 }
                 return null;
@@ -84,13 +85,27 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             const Spacer(),
             FilledButton(
               onPressed: () {
-                if(formker.currentState!.validate()) {
+                if (formker.currentState!.validate()) {
                   var task = TaskModel(
                     title: titlecontroler.text,
                     description: desccontroler.text,
                     selectedDate: selecteddate,
                   );
-                  FirebaseUtiles.addTask(task);
+                  EasyLoading.show();
+                  FirebaseUtiles.addTask(task).then((_) {
+                    Navigator.pop(context);
+                    EasyLoading.dismiss();
+                    BotToast.showText(
+                      text: "Added Successfully",
+
+                      textStyle: theme.textTheme.bodyMedium!.copyWith(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
+                    ); //popup a text toast;
+
+                    //close
+                  });
                 }
               },
               style: FilledButton.styleFrom(

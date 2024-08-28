@@ -2,7 +2,7 @@ class TaskModel {
   String  description;
   String?  id;
   String  title;
-   bool? isDone;
+   bool isDone;
    DateTime selectedDate;
   static const String collectionName ="Tasksmodel";
 
@@ -10,7 +10,7 @@ class TaskModel {
      this.id,
     required this.title,
     required this.description,
-     this.isDone,
+     this.isDone =false,
     required this.selectedDate,
   });
 
