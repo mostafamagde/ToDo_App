@@ -43,7 +43,7 @@ class Appthememanager {
         fontWeight: FontWeight.w500,
       ),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       showUnselectedLabels: false,
       selectedIconTheme: IconThemeData(

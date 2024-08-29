@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_slider/calendar_slider.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:untitled/core/firebase_utiles.dart';
 import 'package:untitled/modules/models/task_model.dart';
 import 'package:untitled/modules/tasks/task_item.dart';
@@ -14,6 +14,7 @@ class TasksView extends StatefulWidget {
 
 class _TasksViewState extends State<TasksView> {
   var controler = CalendarSliderController();
+  var currentDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,10 @@ class _TasksViewState extends State<TasksView> {
                   lastDate: DateTime.now().add(
                     const Duration(days: 40000),
                   ),
-                  onDateSelected: (date) {},
+                  onDateSelected: (date) {
+                    currentDate = date;
+                    setState(() {});
+                  },
                   selectedDayPosition: SelectedDayPosition.center,
                   selectedTileHeight: 170,
                   controller: controler,
@@ -61,8 +65,31 @@ class _TasksViewState extends State<TasksView> {
           ),
         ),
         Expanded(
+          child: StreamBuilder<QuerySnapshot<TaskModel>>(
+            stream: FirebaseUtiles.getStream(currentDate),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+               return CircularProgressIndicator(
+                 color: theme.primaryColor,
+               );
+              }
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text("Something went wrong"),
+                );
+              }
+              List<TaskModel> taskslist = snapshot.data?.docs.map((toElement)=>toElement.data()).toList()??[];
+              return ListView.builder(
+                padding: const EdgeInsets.only(bottom: 110),
+                itemBuilder: (context, index) =>  TaskItem(task: taskslist[index],),
+                itemCount: taskslist.length ,
+              );
+            },
+          ),
+        )
+        /*  Expanded(
           child: FutureBuilder<List<TaskModel>>(
-            future: FirebaseUtiles.getTasks(),
+            future: FirebaseUtiles.getTasks(currentDate),
             builder: (context, snapshot) {
               if(snapshot.connectionState==ConnectionState.waiting){
                  EasyLoading.show();
@@ -80,7 +107,7 @@ class _TasksViewState extends State<TasksView> {
 
             },
           ),
-        )
+        )*/
         /*
        *  Expanded(
           child: ListView.builder(

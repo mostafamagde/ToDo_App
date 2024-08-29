@@ -1,3 +1,5 @@
+import 'package:untitled/core/services/time_formate.dart';
+
 class TaskModel {
   String  description;
   String?  id;
@@ -20,7 +22,7 @@ class TaskModel {
       'title': title,
       'description': description,
       'isDone': isDone,
-      'selectedDate': selectedDate.millisecondsSinceEpoch,
+      'selectedDate': formateDate(selectedDate).millisecondsSinceEpoch,
     };
   }
 
