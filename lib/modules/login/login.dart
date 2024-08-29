@@ -84,7 +84,7 @@ class _LoginviewState extends State<Loginview> {
                         cursorColor: theme.primaryColor,
                         style: theme.textTheme.displayMedium,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       TextFormField(
@@ -123,7 +123,7 @@ class _LoginviewState extends State<Loginview> {
                         style: theme.textTheme.displayMedium,
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 30),
+                        padding: const EdgeInsets.symmetric(vertical: 30),
                         child: InkWell(
                           onTap: () {},
                           child: Text(
@@ -161,7 +161,7 @@ class _LoginviewState extends State<Loginview> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       InkWell(

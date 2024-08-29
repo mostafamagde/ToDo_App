@@ -52,13 +52,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD_ScUonPbWDDymh1IPm1CFryp4tlo3Rbk',
-    appId: '1:331507073845:android:678956caa78caf9408c27c',
+    appId: '1:331507073845:android:996ba0ce52ef00bc08c27c',
     messagingSenderId: '331507073845',
     projectId: 'lasttry-9fd9d',
     storageBucket: 'lasttry-9fd9d.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDDgsxFeqSNVNX0lBHNvtV65Qtm3-WrWdQ',
     appId: '1:331507073845:ios:fe0e755c9dd35e6608c27c',
     messagingSenderId: '331507073845',
@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.untitled',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
+  static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDDgsxFeqSNVNX0lBHNvtV65Qtm3-WrWdQ',
     appId: '1:331507073845:ios:fe0e755c9dd35e6608c27c',
     messagingSenderId: '331507073845',
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'lasttry-9fd9d.appspot.com',
     measurementId: 'G-Z5Z6JRSKXQ',
   );
+
 }

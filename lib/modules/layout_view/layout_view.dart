@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:untitled/modules/setting/setting_view.dart';
 import 'package:untitled/modules/tasks/tasks_view.dart';
 
+import '../tasks/task_bottom_sheet.dart';
+
 class LayoutView extends StatefulWidget {
   const LayoutView({super.key});
 
@@ -11,10 +13,11 @@ class LayoutView extends StatefulWidget {
 
 class _LayoutViewState extends State<LayoutView> {
   int index = 0;
-List<Widget> screens =[
- const TasksView(),
- const SettingView(),
-];
+  List<Widget> screens = [
+    const TasksView(),
+    const SettingView(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -22,10 +25,15 @@ List<Widget> screens =[
 
     return Scaffold(
       extendBody: true,
-      backgroundColor:  Color(0xffDFECDB),
+      backgroundColor: const Color(0xffDFECDB),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => const TaskBottomSheet(),
+          );
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
@@ -41,8 +49,7 @@ List<Widget> screens =[
       ),
       bottomNavigationBar: BottomAppBar(
         height: 100,
-        notchMargin:10 ,
-
+        notchMargin: 10,
         shape: const CircularNotchedRectangle(),
         child: BottomNavigationBar(
           onTap: (value) {
@@ -53,7 +60,7 @@ List<Widget> screens =[
           backgroundColor: Colors.transparent,
           elevation: 0,
           selectedLabelStyle: TextStyle(),
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage("assets/icons/Icon awesome-list.png"),
@@ -69,7 +76,7 @@ List<Widget> screens =[
           ],
         ),
       ),
-body: screens[index],
+      body: screens[index],
     );
   }
 }

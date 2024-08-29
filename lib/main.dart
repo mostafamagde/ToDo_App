@@ -1,9 +1,15 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'core/services/loading.dart';
 import 'firebase_options.dart';
 import 'core/AppThemeManager.dart';
 import 'core/Route_Generator.dart';
 import 'core/page_routes_names.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +17,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  configure();
 }
 
 class MyApp extends StatelessWidget {
@@ -19,13 +26,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: PageRoutesNames.splash,
       onGenerateRoute: RouteGenerator.GenerateRoutes,
       theme: Appthememanager.lighttheme,
-
+      builder: EasyLoading.init(
+        builder: BotToastInit(),
+      ),
     );
   }
 }
-

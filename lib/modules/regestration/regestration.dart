@@ -78,7 +78,7 @@ class _RegestrationState extends State<Regestration> {
                         cursorColor: theme.primaryColor,
                         style: theme.textTheme.displayMedium,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       TextFormField(
@@ -116,7 +116,7 @@ class _RegestrationState extends State<Regestration> {
                         style: theme.textTheme.displayMedium,
                       ),
                     
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                     
@@ -155,7 +155,7 @@ class _RegestrationState extends State<Regestration> {
                         cursorColor: theme.primaryColor,
                         style: theme.textTheme.displayMedium,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                       ElevatedButton(
