@@ -2,6 +2,8 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/core/app_provider.dart';
 import 'package:untitled/core/firebase_utiles.dart';
 import 'package:untitled/modules/models/task_model.dart';
 
@@ -14,13 +16,14 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     var theme = Theme.of(context);
+    var provider = Provider.of<SettingProuider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 10,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: const Color(0xFFFE4A49),
+        borderRadius: BorderRadius.circular(30),
+
       ),
       child: Slidable(
         startActionPane: ActionPane(
@@ -52,13 +55,17 @@ class TaskItem extends StatelessWidget {
           // margin: EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
+            color:  provider.isDark()?Color(0xFF141922):Colors.white,
           ),
           child: ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
             leading: VerticalDivider(
-              color: task.isDone ? const Color(0xFF61E757) : theme.primaryColor,
+              color: task.isDone
+                  ? const Color(0xFF61E757)
+                  :
+
+                       theme.primaryColor,
               thickness: 5,
             ),
             title: Column(
@@ -67,13 +74,18 @@ class TaskItem extends StatelessWidget {
                 Text(
                   task.title,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                      color:
-                          task.isDone ? const Color(0xFF61E757) : theme.primaryColor),
+                      color: task.isDone
+                          ? const Color(0xFF61E757)
+
+                              : theme.primaryColor),
                 ),
                 Text(
                   task.description,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: task.isDone ? const Color(0xFF61E757) : theme.primaryColor,
+                    color: task.isDone
+                        ? const Color(0xFF61E757)
+
+                            : theme.primaryColor,
                     fontSize: 14,
                   ),
                 ),
@@ -86,8 +98,12 @@ class TaskItem extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    Text(DateFormat("dd MMM yyyy").format(task.selectedDate),
-                        style: theme.textTheme.bodySmall),
+                    Text(
+                      DateFormat("dd MMM yyyy").format(task.selectedDate),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                          color
+                              : theme.primaryColor),
+                    ),
                   ],
                 )
               ],
@@ -96,7 +112,7 @@ class TaskItem extends StatelessWidget {
               onTap: () {
                 FirebaseUtiles.updatetask(task);
                 BotToast.showText(
-                  text: task.isDone?"You can do it!":"Good Job!",
+                  text: task.isDone ? "You can do it!" : "Good Job!",
                   textStyle:
                       theme.textTheme.bodyMedium!.copyWith(color: Colors.white),
                 );

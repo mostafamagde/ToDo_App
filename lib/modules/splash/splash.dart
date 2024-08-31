@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/core/app_provider.dart';
 
 import '../../core/page_routes_names.dart';
 
@@ -26,7 +28,9 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
+    var provider =Provider.of<SettingProuider>(context);
     return Image.asset(
+      provider.isDark()?"assets/images/splash – 1.png":
       "assets/images/splash_background.png",
       fit: BoxFit.cover,
     );

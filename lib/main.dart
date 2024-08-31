@@ -1,8 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
+import 'core/app_provider.dart';
 import 'core/services/loading.dart';
 import 'firebase_options.dart';
 import 'core/AppThemeManager.dart';
@@ -16,7 +16,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (BuildContext context) => SettingProuider(),
+      child: MyApp(),
+    ),
+  );
   configure();
 }
 
@@ -26,6 +31,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingProuider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: PageRoutesNames.splash,
@@ -34,6 +41,8 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(
         builder: BotToastInit(),
       ),
+      themeMode: provider.currenttheme,
+      darkTheme: Appthememanager.darktheme,
     );
   }
 }

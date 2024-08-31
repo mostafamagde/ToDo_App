@@ -2,8 +2,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled/modules/models/task_model.dart';
 
+import '../../core/app_provider.dart';
 import '../../core/firebase_utiles.dart';
 
 class TaskBottomSheet extends StatefulWidget {
@@ -22,6 +24,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var provider = Provider.of<SettingProuider>(context);
     return Container(
       padding: const EdgeInsets.only(
         right: 20,
@@ -29,6 +32,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         top: 20,
         left: 20,
       ),
+      color: provider.isDark()?Color(0xFF141922):Colors.white ,
       child: Form(
         key: formker,
         child: Column(
@@ -43,6 +47,8 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               height: 40,
             ),
             TextFormField(
+              cursorColor: provider.isDark()?Colors.grey:theme.primaryColor,
+
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return "Task description is required";
@@ -51,14 +57,22 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               },
               controller: titlecontroler,
               style: theme.textTheme.bodyMedium,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 hintText: "Add new Task title",
+                  hintStyle: theme.textTheme.bodyMedium?.copyWith(color: provider.isDark()?Colors.grey:Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color:  provider.isDark()?Colors.grey :theme.primaryColor,
+                          width: 3
+                      )
+                  )
               ),
             ),
             const SizedBox(
               height: 40,
             ),
             TextFormField(
+              cursorColor: provider.isDark()?Colors.grey:theme.primaryColor,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return "Task title is required";
@@ -67,8 +81,16 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               },
               controller: desccontroler,
               style: theme.textTheme.bodyMedium,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(color: provider.isDark()?Colors.grey:Colors.black),
                 hintText: "Add Task Description",
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color:  provider.isDark()?Colors.grey :theme.primaryColor,
+                          width: 3
+                      )
+                  )
+
               ),
             ),
             const SizedBox(
@@ -117,7 +139,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               child: Text(
                 "Save",
                 style:
-                    theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
+                    theme.textTheme.bodyMedium?.copyWith(color:provider.isDark()?Color(0xFF060E1E): Colors.white),
               ),
             )
           ],

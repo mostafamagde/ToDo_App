@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:calendar_slider/calendar_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled/core/firebase_utiles.dart';
 import 'package:untitled/modules/models/task_model.dart';
 import 'package:untitled/modules/tasks/task_item.dart';
+
+import '../../core/app_provider.dart';
 
 class TasksView extends StatefulWidget {
   const TasksView({super.key});
@@ -20,6 +23,7 @@ class _TasksViewState extends State<TasksView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
     var theme = Theme.of(context);
+    var provider =Provider.of<SettingProuider>(context);
 
     return Column(
       children: [
@@ -32,10 +36,12 @@ class _TasksViewState extends State<TasksView> {
                 alignment: Alignment.centerLeft,
                 width: media.width,
                 height: media.height * .22,
-                color: theme.primaryColor,
+                color:theme.primaryColor,
                 child: Text(
                   "   To Do List",
-                  style: theme.textTheme.bodyLarge,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: provider.isDark()? Color(0xFF060E1E) : Colors.white
+                  ),
                 ),
               ),
               Positioned(
@@ -56,9 +62,14 @@ class _TasksViewState extends State<TasksView> {
                   selectedTileHeight: 170,
                   controller: controler,
                   fullCalendar: true,
-                  calendarEventSelectedColor: Colors.black,
+                  calendarEventSelectedColor: Colors.white,
                   fullCalendarScroll: FullCalendarScroll.vertical,
-                  selectedTileBackgroundColor: theme.primaryColor,
+                  selectedTileBackgroundColor: provider.isDark()? Colors.white :theme.primaryColor,
+                 tileBackgroundColor: !provider.isDark()? Colors.white:Color(0xFF141922),
+                  calendarEventColor:  provider.isDark()?Color(0xFF141922) :theme.primaryColor,
+                  dateColor:  provider.isDark()? Colors.white :Colors.black,
+
+
                 ),
               ),
             ],
@@ -69,8 +80,15 @@ class _TasksViewState extends State<TasksView> {
             stream: FirebaseUtiles.getStream(currentDate),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-               return CircularProgressIndicator(
-                 color: theme.primaryColor,
+               return Center(
+                 child: SizedBox(
+                   width: 40,
+                     height: 40,
+                   child: CircularProgressIndicator(
+                     color: theme.primaryColor,
+                     backgroundColor: Colors.transparent,
+                   ),
+                 ),
                );
               }
               if (snapshot.hasError) {

@@ -12,7 +12,7 @@ configure() {
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..backgroundColor = Colors.white
-    ..indicatorColor = Appthememanager.primarycolor
+    ..indicatorColor = Appthememanager.primaryligthhtcolor
     ..textColor = Colors.white
     ..maskType = EasyLoadingMaskType.black
     ..userInteractions = false
