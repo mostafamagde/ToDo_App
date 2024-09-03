@@ -34,7 +34,7 @@ class _LayoutViewState extends State<LayoutView> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => const TaskBottomSheet(),
+            builder: (context) =>  TaskBottomSheet(edit: false,),
           );
         },
         shape: RoundedRectangleBorder(

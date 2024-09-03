@@ -9,7 +9,10 @@ import '../../core/app_provider.dart';
 import '../../core/firebase_utiles.dart';
 
 class TaskBottomSheet extends StatefulWidget {
-  const TaskBottomSheet({super.key});
+  final bool edit;
+  TaskModel? task;
+
+  TaskBottomSheet({super.key, required this.edit, this.task});
 
   @override
   State<TaskBottomSheet> createState() => _TaskBottomSheetState();
@@ -32,7 +35,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
         top: 20,
         left: 20,
       ),
-      color: provider.isDark()?Color(0xFF141922):Colors.white ,
+      color: provider.isDark() ? Color(0xFF141922) : Colors.white,
       child: Form(
         key: formker,
         child: Column(
@@ -47,8 +50,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               height: 40,
             ),
             TextFormField(
-              cursorColor: provider.isDark()?Colors.grey:theme.primaryColor,
-
+              cursorColor: provider.isDark() ? Colors.grey : theme.primaryColor,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return "Task description is required";
@@ -57,22 +59,23 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               },
               controller: titlecontroler,
               style: theme.textTheme.bodyMedium,
-              decoration:  InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Add new Task title",
-                  hintStyle: theme.textTheme.bodyMedium?.copyWith(color: provider.isDark()?Colors.grey:Colors.black),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color:  provider.isDark()?Colors.grey :theme.primaryColor,
-                          width: 3
-                      )
-                  )
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                    color: provider.isDark() ? Colors.grey : Colors.black),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color:
+                          provider.isDark() ? Colors.grey : theme.primaryColor,
+                      width: 3),
+                ),
               ),
             ),
             const SizedBox(
               height: 40,
             ),
             TextFormField(
-              cursorColor: provider.isDark()?Colors.grey:theme.primaryColor,
+              cursorColor: provider.isDark() ? Colors.grey : theme.primaryColor,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return "Task title is required";
@@ -81,16 +84,16 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               },
               controller: desccontroler,
               style: theme.textTheme.bodyMedium,
-              decoration:  InputDecoration(
-                hintStyle: theme.textTheme.bodyMedium?.copyWith(color: provider.isDark()?Colors.grey:Colors.black),
+              decoration: InputDecoration(
+                hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                    color: provider.isDark() ? Colors.grey : Colors.black),
                 hintText: "Add Task Description",
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color:  provider.isDark()?Colors.grey :theme.primaryColor,
-                          width: 3
-                      )
-                  )
-
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color:
+                          provider.isDark() ? Colors.grey : theme.primaryColor,
+                      width: 3),
+                ),
               ),
             ),
             const SizedBox(
@@ -102,32 +105,62 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 DateFormat("dd MMM yyyy").format(selecteddate),
                 textAlign: TextAlign.center,
               ),
-              onTap: () => showdate(),
+              onTap: () async {
+                {
+                  var date = await showDatePicker(
+                    context: context,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(
+                      const Duration(days: 365),
+                    ),
+                  );
+                  if (date != null) {
+                    setState(() {});
+                    selecteddate = date;
+                  }
+                }
+              },
             ),
             const Spacer(),
             FilledButton(
               onPressed: () {
                 if (formker.currentState!.validate()) {
-                  var task = TaskModel(
+                  widget.task = TaskModel(
                     title: titlecontroler.text,
                     description: desccontroler.text,
                     selectedDate: selecteddate,
                   );
+
                   EasyLoading.show();
-                  FirebaseUtiles.addTask(task).then((_) {
-                    Navigator.pop(context);
-                    EasyLoading.dismiss();
-                    BotToast.showText(
-                      text: "Added Successfully",
+                  widget.edit
+                      ? FirebaseUtiles.editTask(widget.task!).then(
+                          (_) {
+                            Navigator.pop(context);
+                            EasyLoading.dismiss();
+                            BotToast.showText(
+                              text: "Edited Successfully",
+                              textStyle: theme.textTheme.bodySmall!.copyWith(
+                                color: Colors.white,
+                              ),
+                            ); //popup a text toast;
 
-                      textStyle: theme.textTheme.bodyMedium!.copyWith(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500),
-                    ); //popup a text toast;
+                            //close
+                          },
+                        )
+                      : FirebaseUtiles.addTask(widget.task!).then(
+                          (_) {
+                            Navigator.pop(context);
+                            EasyLoading.dismiss();
+                            BotToast.showText(
+                              text: "Added Successfully",
+                              textStyle: theme.textTheme.bodySmall!.copyWith(
+                                color: Colors.white,
+                              ),
+                            ); //popup a text toast;
 
-                    //close
-                  });
+                            //close
+                          },
+                        );
                 }
               },
               style: FilledButton.styleFrom(
@@ -138,27 +171,14 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               ),
               child: Text(
                 "Save",
-                style:
-                    theme.textTheme.bodyMedium?.copyWith(color:provider.isDark()?Color(0xFF060E1E): Colors.white),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: provider.isDark() ? Color(0xFF060E1E) : Colors.white,
+                ),
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  showdate() async {
-    var date = await showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(
-        const Duration(days: 365),
-      ),
-    );
-    if (date != null) {
-      setState(() {});
-      selecteddate = date;
-    }
   }
 }

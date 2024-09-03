@@ -1,5 +1,7 @@
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/core/firebase_utiles.dart';
 
 class Regestration extends StatefulWidget {
   const Regestration({super.key});
@@ -160,7 +162,34 @@ class _RegestrationState extends State<Regestration> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          formfey.currentState!.validate();
+                         if( formfey.currentState!.validate()){
+                           FirebaseUtiles.createAccount(email.text, password.text).then((onValue){
+                            if(onValue) {
+                                Navigator.pop(context);
+                                BotToast.showText(
+                                    text: "Account created successfully");
+                              }
+                            if(onValue==false){
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('AlertDialog Title'),
+                                  content: const Text('AlertDialog description'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            });
+                         };
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.primaryColor,

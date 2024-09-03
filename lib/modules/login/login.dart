@@ -1,4 +1,6 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/core/firebase_utiles.dart';
 
 import '../../core/page_routes_names.dart';
 
@@ -13,7 +15,7 @@ class _LoginviewState extends State<Loginview> {
   var formfey = GlobalKey<FormState>();
   var email = TextEditingController();
   var password = TextEditingController();
-  bool obsecured = false;
+  bool obsecured = true;
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +109,9 @@ class _LoginviewState extends State<Loginview> {
                               obsecured = !obsecured;
                               setState(() {});
                             },
-                            child: Icon(
-                                obsecured ? Icons.visibility : Icons.visibility_off),
+                            child: Icon(obsecured
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                           ),
                           hintText: "Enter your password.",
                           focusedBorder: UnderlineInputBorder(
@@ -137,8 +140,62 @@ class _LoginviewState extends State<Loginview> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, PageRoutesNames.layout);
-                          //formfey.currentState!.validate();
+                          if (formfey.currentState!.validate()) {
+                            FirebaseUtiles.login(email.text, password.text)
+                                .then(
+                              (onValue) {
+                                if (onValue) {
+                                  Navigator.pushReplacementNamed(
+                                      context, PageRoutesNames.layout);
+                                  BotToast.showText(text: "Welcome Back!");
+                                }
+                                if (onValue == false) {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      shape: Border.fromBorderSide(
+                                        BorderSide(color: theme.primaryColor),
+                                      ),
+                                      iconColor: theme.primaryColor,
+                                      titleTextStyle:
+                                          theme.textTheme.bodyMedium,
+                                      contentTextStyle:
+                                          theme.textTheme.bodySmall,
+                                      title: Text(
+                                        'Something went wrong',
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 20),
+                                      ),
+                                      content: Text(
+                                        'Try enter e_mail and password again',
+                                        style: theme.textTheme.bodySmall
+                                            ?.copyWith(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'Ok',
+                                            style: theme.textTheme.bodySmall
+                                                ?.copyWith(
+                                                    color: theme.primaryColor),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.primaryColor,
