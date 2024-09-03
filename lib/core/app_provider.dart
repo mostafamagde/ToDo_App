@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class SettingProuider extends ChangeNotifier {
-  ThemeMode currenttheme= ThemeMode.light;
+  ThemeMode currentTheme= ThemeMode.light;
 
   bool isDark(){
-    return currenttheme == ThemeMode.dark;
+    return currentTheme == ThemeMode.dark;
   }
 void changeMode( ThemeMode mode){
-    if(currenttheme == mode) return;
-    currenttheme = mode;
+    if(currentTheme == mode) return;
+    currentTheme = mode;
     notifyListeners();
 }
 }

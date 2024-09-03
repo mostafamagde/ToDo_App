@@ -1,5 +1,4 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/core/app_provider.dart';
@@ -33,11 +32,11 @@ class SettingView extends StatelessWidget {
             child: Text(
               "Settings",
               style: theme.textTheme.bodyLarge?.copyWith(
-                  color: provider.isDark() ? Color(0xFF060E1E) : Colors.white),
+                  color: provider.isDark() ? const Color(0xFF060E1E) : Colors.white),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 50,
         ),
         Text(
@@ -45,11 +44,11 @@ class SettingView extends StatelessWidget {
           style: theme.textTheme.bodyLarge?.copyWith(
               color: provider.isDark() ? Colors.white : Colors.black),
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: CustomDropdown<String>(
             items: modes,
             initialItem: provider.isDark() ? modes[1] : modes[0],
@@ -59,27 +58,31 @@ class SettingView extends StatelessWidget {
             },
             hintText: "Select Theme",
             decoration: CustomDropdownDecoration(
-                closedFillColor:
-                    provider.isDark() ? Color(0xff1A1A2E) : Colors.white,
-                expandedFillColor:
-                    provider.isDark() ? Color(0xff1A1A2E) : Colors.white,
-                closedSuffixIcon: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: theme.primaryColor,
-                ),
-                expandedSuffixIcon: Icon(
-                  Icons.arrow_drop_up_outlined,
-                  color: theme.primaryColor,
-                ),
-                closedBorder: Border.all(color: theme.primaryColor, width: 2)),
+              closedFillColor:
+                  provider.isDark() ? const Color(0xff1A1A2E) : Colors.white,
+              expandedFillColor:
+                  provider.isDark() ? const Color(0xff1A1A2E) : Colors.white,
+              closedSuffixIcon: Icon(
+                Icons.arrow_drop_down_outlined,
+                color: theme.primaryColor,
+              ),
+              expandedSuffixIcon: Icon(
+                Icons.arrow_drop_up_outlined,
+                color: theme.primaryColor,
+              ),
+              closedBorder: Border.all(
+                color: theme.primaryColor,
+                width: 2,
+              ),
+            ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 100,
         ),
         Row(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
@@ -91,17 +94,23 @@ class SettingView extends StatelessWidget {
                       title: Text(
                         "Are you sure you want to log out ",
                         style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500, fontSize: 20,color:Colors.black ),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
                       ),
                       content: Text(
                         "If yes, press continue",
                         style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.grey,
+                        ),
                       ),
                       shape: Border.fromBorderSide(
-                        BorderSide(color: theme.primaryColor),
+                        BorderSide(
+                          color: theme.primaryColor,
+                        ),
                       ),
                       actions: [
                         TextButton(
@@ -110,45 +119,49 @@ class SettingView extends StatelessWidget {
                           },
                           child: Text(
                             "Cancel",
-                            style: theme.textTheme.bodySmall
-                                ?.copyWith(color: theme.primaryColor),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.primaryColor,
+                            ),
                           ),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                PageRoutesNames.login,
-                                (Route<dynamic> route) => false);
+                              context,
+                              PageRoutesNames.login,
+                              (Route<dynamic> route) => false,
+                            );
                           },
                           child: Text(
                             "Continue",
-                            style: theme.textTheme.bodySmall
-                                ?.copyWith(color: theme.primaryColor),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.primaryColor,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   );
                 },
-                child: Text(
-                  "log out",
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20),
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primaryColor,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
                   ),
                 ),
+                child: Text(
+                  "log out",
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
           ],

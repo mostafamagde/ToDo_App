@@ -22,13 +22,12 @@ class _LayoutViewState extends State<LayoutView> {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var provider =Provider.of<SettingProuider>(context);
 
     return Scaffold(
       extendBody: true,
-      backgroundColor: provider.isDark()?Color(0xFF060E1E): Color(0xffDFECDB),
+      backgroundColor: provider.isDark()?const Color(0xFF060E1E): const Color(0xffDFECDB),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -43,7 +42,7 @@ class _LayoutViewState extends State<LayoutView> {
         child: CircleAvatar(
           backgroundColor:theme.primaryColor,
           radius: provider.isDark()?30: 23,
-          child:  Icon(
+          child:  const Icon(
             Icons.add,
             color:Colors.white,
             size: 30,
@@ -53,7 +52,7 @@ class _LayoutViewState extends State<LayoutView> {
       bottomNavigationBar: BottomAppBar(
         height: 100,
         notchMargin: 10,
-        color:  provider.isDark()? Color(0xff141922) :Colors.white,
+        color:  provider.isDark()? const Color(0xff141922) :Colors.white,
         shape: const CircularNotchedRectangle(),
         child: BottomNavigationBar(
           onTap: (value) {

@@ -41,12 +41,12 @@ class FirebaseUtiles {
   }
 
   static deleteTask(TaskModel task) async {
-    var data = await getCollection();
+    var data = getCollection();
     data.doc(task.id).delete();
   }
 
   static isDone(TaskModel task) async {
-    var data = await getCollection();
+    var data =  getCollection();
     data.doc(task.id).update(
       {
         "isDone": !task.isDone,
@@ -56,7 +56,7 @@ class FirebaseUtiles {
 
   static editTask(TaskModel task)  {
     var data = getCollection();
-    data.doc(task.id).update(
+   return data.doc(task.id).update(
       {
         "title": task.title,
         "description": task.description,

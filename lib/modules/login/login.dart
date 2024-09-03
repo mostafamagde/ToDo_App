@@ -54,7 +54,7 @@ class _LoginviewState extends State<Loginview> {
                       ),
                       TextFormField(
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if ( value!.trim().isEmpty) {
                             return "Please enter your email address.";
                           }
                           bool email = RegExp(
@@ -92,9 +92,10 @@ class _LoginviewState extends State<Loginview> {
                       TextFormField(
                         obscureText: obsecured,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if ( value!.trim().isEmpty) {
                             return "Please enter your password.";
                           }
+                          return null;
                         },
                         controller: password,
                         decoration: InputDecoration(

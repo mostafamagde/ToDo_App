@@ -1,4 +1,3 @@
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/core/firebase_utiles.dart';
@@ -48,15 +47,13 @@ class _RegestrationState extends State<Regestration> {
                       SizedBox(
                         height: media.height * .25,
                       ),
-                    
                       TextFormField(
                         validator: (value) {
-                          if(value?.length==0||value==null){
+                          if (value!.trim().isEmpty) {
                             return "enter name please";
                           }
                           return null;
                         },
-                    
                         controller: name,
                         decoration: InputDecoration(
                           label: Text(
@@ -89,7 +86,7 @@ class _RegestrationState extends State<Regestration> {
                             return "Please enter your email address.";
                           }
                           bool email = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(value);
                           if (email) return null;
                           return "Please enter valid email address";
@@ -117,17 +114,16 @@ class _RegestrationState extends State<Regestration> {
                         cursorColor: theme.primaryColor,
                         style: theme.textTheme.displayMedium,
                       ),
-                    
                       const SizedBox(
                         height: 25,
                       ),
-                    
                       TextFormField(
                         obscureText: obsecured,
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
+                          if (value!.trim().isEmpty) {
                             return "Please enter your password.";
                           }
+                          return null;
                         },
                         controller: password,
                         decoration: InputDecoration(
@@ -142,8 +138,9 @@ class _RegestrationState extends State<Regestration> {
                               obsecured = !obsecured;
                               setState(() {});
                             },
-                            child: Icon(
-                                obsecured ? Icons.visibility : Icons.visibility_off),
+                            child: Icon(obsecured
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                           ),
                           hintText: "Enter your password.",
                           focusedBorder: UnderlineInputBorder(
@@ -162,34 +159,60 @@ class _RegestrationState extends State<Regestration> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                         if( formfey.currentState!.validate()){
-                           FirebaseUtiles.createAccount(email.text, password.text).then((onValue){
-                            if(onValue) {
-                                Navigator.pop(context);
-                                BotToast.showText(
-                                    text: "Account created successfully");
-                              }
-                            if(onValue==false){
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text('AlertDialog Title'),
-                                  content: const Text('AlertDialog description'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Cancel'),
+                          if (formfey.currentState!.validate()) {
+                            FirebaseUtiles.createAccount(
+                                    email.text, password.text)
+                                .then(
+                              (onValue) {
+                                if (onValue) {
+                                  Navigator.pop(context);
+                                  BotToast.showText(
+                                      text: "Account created successfully");
+                                }
+                                if (onValue == false) {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: Text(
+                                        'Something went Wrong',
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                color: theme.primaryColor,
+                                                fontSize: 20),
+                                      ),
+                                      content: Text(
+                                        'Try Enter E_mail and strong Password',
+                                        style: theme.textTheme.bodySmall,
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'Cancel',
+                                            style: theme.textTheme.bodySmall
+                                                ?.copyWith(
+                                                    color: theme.primaryColor),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            'OK',
+                                            style: theme.textTheme.bodySmall
+                                                ?.copyWith(
+                                                    color: theme.primaryColor),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            });
-                         };
+                                  );
+                                }
+                              },
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.primaryColor,
@@ -212,8 +235,6 @@ class _RegestrationState extends State<Regestration> {
                           ],
                         ),
                       ),
-                    
-                    
                     ],
                   ),
                 ),

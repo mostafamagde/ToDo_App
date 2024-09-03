@@ -4,13 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/modules/models/task_model.dart';
-
 import '../../core/app_provider.dart';
 import '../../core/firebase_utiles.dart';
 
 class TaskBottomSheet extends StatefulWidget {
   final bool edit;
   TaskModel? task;
+
 
   TaskBottomSheet({super.key, required this.edit, this.task});
 
@@ -27,22 +27,24 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var media =MediaQuery .of(context).size;
     var provider = Provider.of<SettingProuider>(context);
     return Container(
+      height:media.height*.55,
       padding: const EdgeInsets.only(
         right: 20,
         bottom: 16,
         top: 20,
         left: 20,
       ),
-      color: provider.isDark() ? Color(0xFF141922) : Colors.white,
+      color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
       child: Form(
         key: formker,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              "Add new Task",
+             Text(
+             widget.edit? "Edit Task":"Add new Task",
               style: theme.textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
@@ -60,7 +62,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               controller: titlecontroler,
               style: theme.textTheme.bodyMedium,
               decoration: InputDecoration(
-                hintText: "Add new Task title",
+                hintText:widget.edit?"Edit Task title": "Add new Task title",
                 hintStyle: theme.textTheme.bodyMedium?.copyWith(
                     color: provider.isDark() ? Colors.grey : Colors.black),
                 focusedBorder: UnderlineInputBorder(
@@ -87,7 +89,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
               decoration: InputDecoration(
                 hintStyle: theme.textTheme.bodyMedium?.copyWith(
                     color: provider.isDark() ? Colors.grey : Colors.black),
-                hintText: "Add Task Description",
+                hintText:widget.edit?"Edit Task Description": "Add Task Description",
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color:
@@ -99,7 +101,7 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
             const SizedBox(
               height: 40,
             ),
-            Text("Select Date", style: theme.textTheme.bodyMedium),
+            Text(widget.edit?"Edit Date":"Select Date", style: theme.textTheme.bodyMedium),
             InkWell(
               child: Text(
                 DateFormat("dd MMM yyyy").format(selecteddate),
@@ -121,46 +123,48 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 }
               },
             ),
-            const Spacer(),
+             widget.edit?const SizedBox(height: 50,) :const Spacer(),
             FilledButton(
               onPressed: () {
                 if (formker.currentState!.validate()) {
+                  var id =  widget.task?.id;
                   widget.task = TaskModel(
                     title: titlecontroler.text,
                     description: desccontroler.text,
                     selectedDate: selecteddate,
+                    id: id,
                   );
 
                   EasyLoading.show();
                   widget.edit
                       ? FirebaseUtiles.editTask(widget.task!).then(
-                          (_) {
-                            Navigator.pop(context);
-                            EasyLoading.dismiss();
-                            BotToast.showText(
-                              text: "Edited Successfully",
-                              textStyle: theme.textTheme.bodySmall!.copyWith(
-                                color: Colors.white,
-                              ),
-                            ); //popup a text toast;
+                        (_) {
+                      Navigator.pop(context);
+                      EasyLoading.dismiss();
+                      BotToast.showText(
+                        text: "Edited Successfully",
+                        textStyle: theme.textTheme.bodySmall!.copyWith(
+                          color: Colors.white,
+                        ),
+                      ); //popup a text toast;
 
-                            //close
-                          },
-                        )
+                      //close
+                    },
+                  )
                       : FirebaseUtiles.addTask(widget.task!).then(
-                          (_) {
-                            Navigator.pop(context);
-                            EasyLoading.dismiss();
-                            BotToast.showText(
-                              text: "Added Successfully",
-                              textStyle: theme.textTheme.bodySmall!.copyWith(
-                                color: Colors.white,
-                              ),
-                            ); //popup a text toast;
+                        (_) {
+                      Navigator.pop(context);
+                      EasyLoading.dismiss();
+                      BotToast.showText(
+                        text: "Added Successfully",
+                        textStyle: theme.textTheme.bodySmall!.copyWith(
+                          color: Colors.white,
+                        ),
+                      ); //popup a text toast;
 
-                            //close
-                          },
-                        );
+                      //close
+                    },
+                  );
                 }
               },
               style: FilledButton.styleFrom(
@@ -170,12 +174,32 @@ class _TaskBottomSheetState extends State<TaskBottomSheet> {
                 ),
               ),
               child: Text(
-                "Save",
+                widget.edit?"Edit": "Save",
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: provider.isDark() ? Color(0xFF060E1E) : Colors.white,
+                  color: provider.isDark() ? const Color(0xFF060E1E) : Colors.white,
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 20,),
+            widget.edit? FilledButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: theme.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+               "Cancel",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: provider.isDark() ? const Color(0xFF060E1E) : Colors.white,
+                ),
+              ),
+            ):Container(),
+
+
           ],
         ),
       ),

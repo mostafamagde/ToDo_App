@@ -40,7 +40,7 @@ class _TasksViewState extends State<TasksView> {
                 child: Text(
                   "   To Do List",
                   style: theme.textTheme.bodyLarge?.copyWith(
-                    color: provider.isDark()? Color(0xFF060E1E) : Colors.white
+                    color: provider.isDark()? const Color(0xFF060E1E) : Colors.white
                   ),
                 ),
               ),
@@ -65,8 +65,8 @@ class _TasksViewState extends State<TasksView> {
                   calendarEventSelectedColor: Colors.white,
                   fullCalendarScroll: FullCalendarScroll.vertical,
                   selectedTileBackgroundColor: provider.isDark()? Colors.white :theme.primaryColor,
-                 tileBackgroundColor: !provider.isDark()? Colors.white:Color(0xFF141922),
-                  calendarEventColor:  provider.isDark()?Color(0xFF141922) :theme.primaryColor,
+                 tileBackgroundColor: !provider.isDark()? Colors.white:const Color(0xFF141922),
+                  calendarEventColor:  provider.isDark()?const Color(0xFF141922) :theme.primaryColor,
                   dateColor:  provider.isDark()? Colors.white :Colors.black,
 
 

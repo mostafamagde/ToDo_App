@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +26,7 @@ class _TaskItemState extends State<TaskItem> {
     var provider = Provider.of<SettingProuider>(context);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 10,
@@ -44,11 +43,52 @@ class _TaskItemState extends State<TaskItem> {
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
                 onPressed: (BuildContext context) {
-                  FirebaseUtiles.deleteTask(widget.task);
-                  BotToast.showText(
-                    text: "Deleted successfully",
-                    textStyle: theme.textTheme.bodySmall!.copyWith(
-                      color: Colors.white,
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      backgroundColor:
+                          provider.isDark() ? const Color(0xFF141922) : Colors.white,
+                      title: Text(
+                        "Are you sure ?",
+                        style: theme.textTheme.bodyMedium
+                            ?.copyWith(color: theme.primaryColor),
+                      ),
+                      content: Text(
+                        "You will not be able to retrieve it",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: theme.textTheme.bodySmall!.copyWith(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            FirebaseUtiles.deleteTask(widget.task);
+                            BotToast.showText(
+                              text: "Deleted successfully",
+                              textStyle: theme.textTheme.bodySmall!.copyWith(
+                                color: Colors.white,
+                              ),
+
+                            );  Navigator.pop(context);
+
+                          },
+                          child: Text(
+                            "Continue",
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   );
                 },
@@ -59,20 +99,20 @@ class _TaskItemState extends State<TaskItem> {
               ),
               SlidableAction(
                 backgroundColor: theme.primaryColor,
-                foregroundColor: Colors.white,
                 icon: Icons.edit,
                 onPressed: (BuildContext context) {
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                       AlertDialog(
-                        backgroundColor: Colors.white,
-                        content: TaskBottomSheet(edit: true,task:widget. task,),
-
-                      )
-
+                    builder: (BuildContext context) => AlertDialog(
+                      backgroundColor: provider.isDark()
+                          ? const Color(0xFF141922)
+                          : Colors.white,
+                      content: TaskBottomSheet(
+                        edit: true,
+                        task: widget.task,
+                      ),
+                    ),
                   );
-
                 },
               ),
             ],
@@ -81,14 +121,15 @@ class _TaskItemState extends State<TaskItem> {
             // margin: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: provider.isDark() ? Color(0xFF141922) : Colors.white,
+              color: provider.isDark() ? const Color(0xFF141922) : Colors.white,
             ),
             child: ListTile(
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
               leading: VerticalDivider(
-                color:
-                    widget.task.isDone ? const Color(0xFF61E757) : theme.primaryColor,
+                color: widget.task.isDone
+                    ? const Color(0xFF61E757)
+                    : theme.primaryColor,
                 thickness: 5,
               ),
               title: Column(
@@ -120,7 +161,8 @@ class _TaskItemState extends State<TaskItem> {
                         width: 5,
                       ),
                       Text(
-                        DateFormat("dd MMM yyyy").format(widget.task.selectedDate),
+                        DateFormat("dd MMM yyyy")
+                            .format(widget.task.selectedDate),
                         style: theme.textTheme.bodySmall
                             ?.copyWith(color: theme.primaryColor),
                       ),
