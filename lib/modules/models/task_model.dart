@@ -6,7 +6,7 @@ class TaskModel {
   String  title;
    bool isDone;
    DateTime selectedDate;
-  static const String collectionName ="Tasksmodel";
+
 
   TaskModel({
      this.id,
